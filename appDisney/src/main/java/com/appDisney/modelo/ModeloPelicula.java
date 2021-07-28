@@ -3,21 +3,21 @@ package com.appDisney.modelo;
 import java.util.Date;
 import java.util.List;
 
-public class modeloPelicula {
+public class ModeloPelicula {
 	private long idPelicula;
 	private String imagen;
 	private String titulo;
 	private Date fechaCreacion;
 	private int calificacion;
-	private List<modeloPersonaje> personajes;
-	private modeloGenero genero;
+	private List<ModeloPersonaje> personajes;
+	private ModeloGenero genero;
 
-	public modeloPelicula() {
+	public ModeloPelicula() {
 		super();
 	}
 
-	public modeloPelicula(long idPelicula, String imagen, String titulo, Date fechaCreacion, int calificacion,
-			List<modeloPersonaje> personajes, modeloGenero genero) {
+	public ModeloPelicula(long idPelicula, String imagen, String titulo, Date fechaCreacion, int calificacion,
+			List<ModeloPersonaje> personajes, ModeloGenero genero) {
 		super();
 		this.idPelicula = idPelicula;
 		this.imagen = imagen;

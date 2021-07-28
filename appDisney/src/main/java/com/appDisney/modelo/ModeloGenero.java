@@ -2,17 +2,17 @@ package com.appDisney.modelo;
 
 import java.util.List;
 
-public class modeloGenero {
+public class ModeloGenero {
 	private long idGenero;
 	private String nombre;
 	private String imagen;
-	private List<modeloPelicula> peliculas;
+	private List<ModeloPelicula> peliculas;
 
-	public modeloGenero() {
+	public ModeloGenero() {
 		super();
 	}
 
-	public modeloGenero(long idGenero, String nombre, String imagen, List<modeloPelicula> peliculas) {
+	public ModeloGenero(long idGenero, String nombre, String imagen, List<ModeloPelicula> peliculas) {
 		super();
 		this.idGenero = idGenero;
 		this.nombre = nombre;
@@ -44,11 +44,11 @@ public class modeloGenero {
 		this.imagen = imagen;
 	}
 
-	public List<modeloPelicula> getPeliculas() {
+	public List<ModeloPelicula> getPeliculas() {
 		return peliculas;
 	}
 
-	public void setPeliculas(List<modeloPelicula> peliculas) {
+	public void setPeliculas(List<ModeloPelicula> peliculas) {
 		this.peliculas = peliculas;
 	}
 
