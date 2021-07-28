@@ -9,7 +9,7 @@
 		<version>2.5.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.appDisney</groupId>
 	<artifactId>AppDisney</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AppDisney</name>
