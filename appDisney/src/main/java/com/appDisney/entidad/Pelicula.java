@@ -8,6 +8,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.appDisney.modelo.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "pelicula")
 
@@ -38,9 +40,13 @@ public class Pelicula {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
 	@JoinColumn(name="id_genero", nullable = false)
+	
+	//@JsonManagedReference
 	private Genero genero;
 	
 	@ManyToMany(targetEntity = Personaje.class, mappedBy = "peliculas", cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+	
+	//@JsonBackReference
 	private List<Personaje> personajes;
 
 	public long getIdPelicula() {
@@ -90,7 +96,7 @@ public class Pelicula {
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
-
+	
 	public List<Personaje> getPersonajes() {
 		return personajes;
 	}

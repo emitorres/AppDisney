@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import com.appDisney.modelo.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "genero")
@@ -24,6 +26,10 @@ public class Genero {
 	private String imagen;
 
 	@OneToMany(targetEntity = Pelicula.class, mappedBy = "genero", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	
+	
+	@JsonBackReference
+	// @JsonIgnore
 	private List<Pelicula> peliculas;
 
 	public long getIdGenero() {

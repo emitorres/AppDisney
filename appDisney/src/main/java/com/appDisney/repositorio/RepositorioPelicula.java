@@ -27,13 +27,18 @@ public interface RepositorioPelicula extends JpaRepository<Pelicula, Long>{
 
 
 
-	ArrayList<Pelicula> findById(int idGenero);
+	
 
 
 
 
 
-	ArrayList<Pelicula> findByIdGenero(int idGenero);
+
+
+
+
+
+	//ArrayList<Pelicula> findByIdGenero(int idGenero);
 
 
 

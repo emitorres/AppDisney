@@ -2,6 +2,7 @@ package com.appDisney.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.appDisney.entidad.Personaje;
 import com.appDisney.servicio.ServicioPersonaje;
+import com.google.common.collect.Multimap;
 
 
 @RestController
@@ -30,9 +32,12 @@ public class ControladorPersonaje {
 	}
 	//SE OBTIENEN TODOS LOS PERSONAJES
 	@GetMapping("/characters/detail")
-	public List<Personaje> obtenerPersonajes() {
-		return servPersonaje.obtenerPersonajes();
+	public List<Personaje> obtenerDetallePersonajes() {
+		return servPersonaje.obtenerDetallePersonajes();
 	}
+	
+	
+
 	
 	//SE CREA UN PERSONAJE
 	@PostMapping(value = "/character/create")
@@ -73,5 +78,8 @@ public class ControladorPersonaje {
 		return servPersonaje.buscarPorPelicula(idPelicula);	
 	}
 	
-
+	@GetMapping(value= "/characters")
+	public List<Personaje> obtenerPersonajes() {
+		return servPersonaje.obtenerPersonajes();	
+	}
 }

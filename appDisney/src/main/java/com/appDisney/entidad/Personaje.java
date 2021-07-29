@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "personaje")
 
@@ -33,19 +36,28 @@ public class Personaje {
 	@Column(name = "historia")
 	@NotEmpty(message = "El campo historia no puede estar vacio")
 	private String historia;
-
+	
 	@ManyToMany(targetEntity = Pelicula.class, cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH })
+	
+	
+	@JsonBackReference
 	private List<Pelicula> peliculas;
 
 	
 	public Personaje() {
-		super();
+		//super();
 	}
 
-	public Personaje(@NotEmpty(message = "El campo nombre no puede estar vacio") String nombre) {
+	
+
+	public Personaje(@NotEmpty(message = "La imagen no puede estar vacia") String imagen,
+			@NotEmpty(message = "El campo nombre no puede estar vacio") String nombre) {
 		super();
+		this.imagen = imagen;
 		this.nombre = nombre;
 	}
+
+
 
 	public long getIdPersonaje() {
 		return idPersonaje;
@@ -94,7 +106,7 @@ public class Personaje {
 	public void setHistoria(String historia) {
 		this.historia = historia;
 	}
-
+	
 	public List<Pelicula> getPeliculas() {
 		return peliculas;
 	}

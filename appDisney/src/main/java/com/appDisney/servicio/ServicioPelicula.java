@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.appDisney.entidad.Genero;
 import com.appDisney.entidad.Pelicula;
+import com.appDisney.entidad.Personaje;
 import com.appDisney.modelo.ModeloPelicula;
 import com.appDisney.repositorio.RepositorioGenero;
 import com.appDisney.repositorio.RepositorioPelicula;
@@ -40,9 +41,6 @@ public class ServicioPelicula {
 		peli.setImagen(pelicula.getImagen());
 		peli.setTitulo(pelicula.getTitulo());
 
-		// Genero genero =
-		// repoGenero.findById(pelicula.getGenero().getIdGenero()).get();
-
 		peli.setGenero(pelicula.getGenero());
 
 		Pelicula nuevaPelicula = repoPelicula.save(peli);
@@ -54,41 +52,76 @@ public class ServicioPelicula {
 
 	}
 
-	
-	
-	public ArrayList<Pelicula> obtenerPeliculas() {
 
-		return (ArrayList<Pelicula>) repoPelicula.findAll();
-	}
+	public List<Pelicula> obtenerPeliculas() {
+        List<Pelicula> peliculaList = repoPelicula.findAll();
+        if(peliculaList.size()>0) {
+            List<Pelicula> peliculas = new ArrayList<>();
+            for (Pelicula peli : peliculaList) {
+                Pelicula model = new Pelicula();
+                model.setTitulo(peli.getTitulo());
+                model.setCalificacion(peli.getCalificacion());
+                model.setIdPelicula(peli.getIdPelicula());
+                model.setFechaCreacion(peli.getFechaCreacion());
+                model.setPersonajes(getPersonajeList(peli));
+                
+               
+                peliculas.add(model);
+            }
+            return peliculas;
+        } else return new ArrayList<Pelicula>();
+    }
+    public List<Personaje> getPersonajeList(Pelicula peli){
+        List<Personaje> personajeList = new ArrayList<>();
+        
+        for(int i=0; i< peli.getPersonajes().size(); i++) {
+            Personaje personajeModel = new Personaje();
+            personajeModel.setNombre(peli.getPersonajes().get(i).getNombre());
+            personajeModel.setEdad(peli.getPersonajes().get(i).getEdad());
+            personajeModel.setHistoria(peli.getPersonajes().get(i).getHistoria());
+            personajeModel.setImagen(peli.getPersonajes().get(i).getImagen());
+            personajeModel.setPeso(peli.getPersonajes().get(i).getPeso());
+            personajeModel.setIdPersonaje(peli.getPersonajes().get(i).getIdPersonaje());
+            personajeList.add(personajeModel);
+        }
+        return personajeList;
+    }
 	
-	 /*if(userRepository.findById(id).isPresent()) {
-         User user = userRepository.findById(id).get();
-         UserModel userModel = new UserModel();
-         userModel.setFirstName(user.getFirstName());
-         userModel.setLastName(user.getLastName());
-         userModel.setEmail(user.getEmail());
-         userModel.setMobile(user.getMobile());
-         userModel.setRoles( getRoleList(user));
-         return userModel;
-     } else return null;*/
+	
 	public ResponseEntity<Pelicula> obtenerPelicula(long idPelicula) {
-		
 
 		if (repoPelicula.findById(idPelicula).isPresent()) {
 			Pelicula pelicula = repoPelicula.findById(idPelicula).get();
 			Pelicula peli = new Pelicula();
-			
+
 			peli.setCalificacion(pelicula.getCalificacion());
 			peli.setFechaCreacion(pelicula.getFechaCreacion());
 			peli.setImagen(pelicula.getImagen());
 			peli.setTitulo(pelicula.getTitulo());
-			
+
 			return new ResponseEntity<>((Pelicula) peli, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
+	public Pelicula getUsers(long idPelicula) {
+       Pelicula pelicula = repoPelicula.findById(idPelicula).get();
+        
+                Pelicula model = new Pelicula();
+                
+                model.setTitulo(pelicula.getTitulo());
+                model.setImagen(pelicula.getImagen());
+                model.setCalificacion(pelicula.getCalificacion());
+                model.setFechaCreacion(pelicula.getFechaCreacion());
+                model.setIdPelicula(pelicula.getIdPelicula());
+                //model.setGenero(pelicula.getGenero());
+               model.setPersonajes(pelicula.getPersonajes());
+               
+                return model; 
+             }
+	
+	
 	@Transactional
 	public ResponseEntity<Object> actualizarPelicula(Pelicula pelicula, Long idPelicula) {
 		if (repoPelicula.findById(idPelicula).isPresent()) {
@@ -139,14 +172,34 @@ public class ServicioPelicula {
 		}
 	}
 
-	public ResponseEntity<List<Pelicula>> buscarPorGenero(int idGenero) {
+	/*public ResponseEntity<List<Pelicula>> buscarPorGenero(long idGenero) {
 		try {
 			List<Pelicula> peliculas = new ArrayList<Pelicula>();
 
 			if (idGenero == 0)
 				repoPelicula.findAll().forEach(peliculas::add);
 			else
-				repoPelicula.findByIdGenero(idGenero).forEach(peliculas::add);
+		//repoPelicula.findBy(idGenero).forEach(peliculas::add);
+
+			if (peliculas.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(peliculas, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}*/
+	
+	public ResponseEntity<List<Pelicula>> buscarPorGenero(long idGenero) {
+		try {
+			List<Pelicula> peliculas = new ArrayList<Pelicula>();
+
+			Optional<Genero> genero = repoGenero.findById(idGenero);
+
+			for (Pelicula peli :genero.get().getPeliculas()) {
+				peliculas.add(peli);
+			}
 
 			if (peliculas.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);

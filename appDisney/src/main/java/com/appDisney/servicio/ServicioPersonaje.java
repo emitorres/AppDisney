@@ -1,6 +1,8 @@
 package com.appDisney.servicio;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,25 +18,25 @@ import com.appDisney.entidad.Personaje;
 import com.appDisney.repositorio.RepositorioGenero;
 import com.appDisney.repositorio.RepositorioPelicula;
 import com.appDisney.repositorio.RepositorioPersonaje;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 import java.util.Optional;
 
 @Service
 public class ServicioPersonaje {
 	private RepositorioPersonaje repoPersonaje;
+	private RepositorioPelicula repoPelicula;
 
-	public ServicioPersonaje(RepositorioPersonaje repoPersonaje) {
+	public ServicioPersonaje(RepositorioPersonaje repoPersonaje, RepositorioPelicula repoPelicula) {
 		super();
 		this.repoPersonaje = repoPersonaje;
+		this.repoPelicula = repoPelicula;
 	}
 
-	// @Transactional
 	public ResponseEntity<Object> agregarPersonaje(Personaje personaje) {
 
 		Personaje per = new Personaje();
-		// List<Pelicula> peliculas = personaje.getPeliculas();
-		// Pelicula peli = new Pelicula();
-		// peli = repoPelicula.findById(personaje.getPeliculas().get(0));
 
 		per.setImagen(personaje.getImagen());
 		per.setNombre(personaje.getNombre());
@@ -42,7 +44,7 @@ public class ServicioPersonaje {
 		per.setPeso(personaje.getPeso());
 		per.setHistoria(personaje.getHistoria());
 
-		// per.setPeliculas(personaje.getPeliculas());
+		per.setPeliculas(personaje.getPeliculas());
 
 		Personaje nuevoPersonaje = repoPersonaje.save(per);
 
@@ -54,6 +56,12 @@ public class ServicioPersonaje {
 	}
 
 	public List<Personaje> obtenerPersonajes() {
+		List<Personaje> personajes = repoPersonaje.findAll();
+
+		return personajes;
+	}
+	
+	public List<Personaje> obtenerDetallePersonajes() {
 		List<Personaje> personajes = repoPersonaje.findAll();
 
 		return personajes;
@@ -141,10 +149,11 @@ public class ServicioPersonaje {
 		try {
 			List<Personaje> personajes = new ArrayList<Personaje>();
 
-			if (idPelicula == 0)
-				repoPersonaje.findAll().forEach(personajes::add);
-			else
-				repoPersonaje.findByEdad(idPelicula).forEach(personajes::add);
+			Optional<Pelicula> pelicula = repoPelicula.findById(idPelicula);
+
+			for (Personaje peli : pelicula.get().getPersonajes()) {
+				personajes.add(peli);
+			}
 
 			if (personajes.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -155,4 +164,12 @@ public class ServicioPersonaje {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	
+	
+	
+	
+	
+	
+
 }

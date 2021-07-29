@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appDisney.entidad.Pelicula;
+import com.appDisney.entidad.Personaje;
 import com.appDisney.servicio.ServicioPelicula;
 
 @RestController
@@ -29,10 +30,16 @@ public class ControladorPelicula {
 		this.servPelicula = servPelicula;
 	}
 	//SE OBTIENEN TODOS LOS PERSONAJES
-	@GetMapping("/movies/detail")
-	public ArrayList<Pelicula> obtenerPeliculas() {
+	@GetMapping("/movies")
+	public List<Pelicula> obtenerPeliculas() {
 		return servPelicula.obtenerPeliculas();
 	}
+	
+	@GetMapping("/movies/detail/{id}")
+	public Pelicula obtenerDetallePelicula(@PathVariable("id") long idPelicula) {
+		return servPelicula.getUsers(idPelicula);
+	}
+	
 	
 	//SE CREA UN PERSONAJE
 	@PostMapping(value = "/movie/create")
@@ -64,7 +71,7 @@ public class ControladorPelicula {
 	}
 	
 	@GetMapping(value= "/movies", params="genre")
-	public ResponseEntity<List<Pelicula>> buscarPorGenero2(@RequestParam("genre") int idGenero) {
+	public ResponseEntity<List<Pelicula>> buscarPorGenero2(@RequestParam("genre") long idGenero) {
 		return servPelicula.buscarPorGenero(idGenero);	
 	}
 	
@@ -73,8 +80,5 @@ public class ControladorPelicula {
 		return servPelicula.buscarPorOrden(order);	
 	}
 	
-	@GetMapping("/movies/{id}")
-	public ResponseEntity<List<Pelicula>> buscarPorGenero (int idGenero) {
-		return servPelicula.buscarPorGenero(idGenero);	
-	}
+	
 }
