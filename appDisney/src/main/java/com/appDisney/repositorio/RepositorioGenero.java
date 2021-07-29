@@ -7,4 +7,6 @@ import com.appDisney.entidad.*;
 @Repository
 public interface RepositorioGenero extends JpaRepository<Genero, Long>{
 
+	boolean findByNombre(String nombre);
+
 }

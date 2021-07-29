@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.appDisney.modelo.*;
 @Entity
@@ -25,17 +26,18 @@ public class Pelicula {
 	private String titulo;
 	
 	@Column(name = "fechaCreacion")
-	@NotEmpty(message = "El campo fecha no puede estar vacio")
+	//@NotEmpty(message = "El campo fecha no puede estar vacio")
 	private Date fechaCreacion;
 	
 	@Column(name = "calificacion")
-	@NotEmpty(message = "El campo calificacion no puede estar vacio")
-	@Size(min = 1, max = 5)
+	@NotNull(message = "El campo calificacion no puede estar vacio")
+	//@Size(min = 1, max = 5)
 	private int calificacion;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name="idGenero", nullable = false)
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
+	@JoinColumn(name="id_genero", nullable = false)
 	private Genero genero;
 	
 	@ManyToMany(targetEntity = Personaje.class, mappedBy = "peliculas", cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})

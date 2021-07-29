@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "personaje")
 
@@ -22,11 +23,11 @@ public class Personaje {
 	private String nombre;
 
 	@Column(name = "edad")
-	@NotEmpty(message = "El campo edad no puede estar vacio")
+	@NotNull(message = "El campo edad no puede estar vacio")
 	private int edad;
 
 	@Column(name = "peso")
-	@NotEmpty(message = "El campo peso no puede estar vacio")
+	@NotNull(message = "El campo peso no puede estar vacio")
 	private double peso;
 
 	@Column(name = "historia")
@@ -39,6 +40,11 @@ public class Personaje {
 	
 	public Personaje() {
 		super();
+	}
+
+	public Personaje(@NotEmpty(message = "El campo nombre no puede estar vacio") String nombre) {
+		super();
+		this.nombre = nombre;
 	}
 
 	public long getIdPersonaje() {
