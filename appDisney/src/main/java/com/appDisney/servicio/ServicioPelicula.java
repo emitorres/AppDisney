@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,39 +12,38 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.appDisney.entidad.Genero;
 import com.appDisney.entidad.Pelicula;
+import com.appDisney.modelo.ModeloPelicula;
 import com.appDisney.repositorio.RepositorioGenero;
 import com.appDisney.repositorio.RepositorioPelicula;
 import com.appDisney.repositorio.RepositorioPersonaje;
 
+
 @Service
 public class ServicioPelicula {
-	
+
 	private RepositorioPelicula repoPelicula;
 	private RepositorioGenero repoGenero;
 
-	
 	public ServicioPelicula(RepositorioPelicula repoPelicula, RepositorioGenero repoGenero) {
 		super();
 		this.repoPelicula = repoPelicula;
 		this.repoGenero = repoGenero;
 	}
 
-	//@Transactional
+	// @Transactional
 	public ResponseEntity<Object> agregarPelicula(Pelicula pelicula) {
-		
+
 		Pelicula peli = new Pelicula();
-		
+
 		peli.setCalificacion(pelicula.getCalificacion());
 		peli.setFechaCreacion(pelicula.getFechaCreacion());
 		peli.setImagen(pelicula.getImagen());
 		peli.setTitulo(pelicula.getTitulo());
-		
-		//Genero genero = repoGenero.findById(pelicula.getGenero().getIdGenero()).get();
-		
+
+		// Genero genero =
+		// repoGenero.findById(pelicula.getGenero().getIdGenero()).get();
+
 		peli.setGenero(pelicula.getGenero());
-		
-		
-		
 
 		Pelicula nuevaPelicula = repoPelicula.save(peli);
 
@@ -54,16 +54,36 @@ public class ServicioPelicula {
 
 	}
 
+	
+	
 	public ArrayList<Pelicula> obtenerPeliculas() {
 
 		return (ArrayList<Pelicula>) repoPelicula.findAll();
 	}
-
+	
+	 /*if(userRepository.findById(id).isPresent()) {
+         User user = userRepository.findById(id).get();
+         UserModel userModel = new UserModel();
+         userModel.setFirstName(user.getFirstName());
+         userModel.setLastName(user.getLastName());
+         userModel.setEmail(user.getEmail());
+         userModel.setMobile(user.getMobile());
+         userModel.setRoles( getRoleList(user));
+         return userModel;
+     } else return null;*/
 	public ResponseEntity<Pelicula> obtenerPelicula(long idPelicula) {
-		Optional<Pelicula> pelicula = repoPelicula.findById(idPelicula);
+		
 
-		if (pelicula.isPresent()) {
-			return new ResponseEntity<>(pelicula.get(), HttpStatus.OK);
+		if (repoPelicula.findById(idPelicula).isPresent()) {
+			Pelicula pelicula = repoPelicula.findById(idPelicula).get();
+			Pelicula peli = new Pelicula();
+			
+			peli.setCalificacion(pelicula.getCalificacion());
+			peli.setFechaCreacion(pelicula.getFechaCreacion());
+			peli.setImagen(pelicula.getImagen());
+			peli.setTitulo(pelicula.getTitulo());
+			
+			return new ResponseEntity<>((Pelicula) peli, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -78,7 +98,7 @@ public class ServicioPelicula {
 			nuevaPelicula.setImagen(pelicula.getImagen());
 			nuevaPelicula.setTitulo(pelicula.getTitulo());
 			Genero genero = repoGenero.findById(pelicula.getGenero().getIdGenero()).get();
-			
+
 			nuevaPelicula.setGenero(genero);
 			Pelicula peliculaActualizada = repoPelicula.save(nuevaPelicula);
 			if (repoPelicula.findById(peliculaActualizada.getIdPelicula()).isPresent())
@@ -100,7 +120,7 @@ public class ServicioPelicula {
 			return ResponseEntity.badRequest().body("No se encuentra la pelicula");
 	}
 
-	public ResponseEntity<List<Pelicula>> buscarPorNombre(String nombre) {
+	public ResponseEntity<List<Pelicula>> buscarPorTitulo(String nombre) {
 		try {
 			List<Pelicula> peliculas = new ArrayList<Pelicula>();
 
@@ -118,7 +138,7 @@ public class ServicioPelicula {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	public ResponseEntity<List<Pelicula>> buscarPorGenero(int idGenero) {
 		try {
 			List<Pelicula> peliculas = new ArrayList<Pelicula>();
@@ -126,7 +146,7 @@ public class ServicioPelicula {
 			if (idGenero == 0)
 				repoPelicula.findAll().forEach(peliculas::add);
 			else
-				repoPelicula.findByGenero(idGenero).forEach(peliculas::add);
+				repoPelicula.findByIdGenero(idGenero).forEach(peliculas::add);
 
 			if (peliculas.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -137,6 +157,7 @@ public class ServicioPelicula {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 	public ResponseEntity<List<Pelicula>> buscarPorOrden(String orden) {
 		try {
 			List<Pelicula> peliculas = new ArrayList<Pelicula>();
@@ -144,7 +165,7 @@ public class ServicioPelicula {
 			if (orden == null)
 				repoPelicula.findAll().forEach(peliculas::add);
 			else
-				//repoPelicula.findByOrderByTitulo(orden).forEach(peliculas::add);
+			// repoPelicula.findByOrderByTitulo(orden).forEach(peliculas::add);
 
 			if (peliculas.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);

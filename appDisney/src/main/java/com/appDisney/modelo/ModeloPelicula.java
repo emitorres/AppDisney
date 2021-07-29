@@ -55,4 +55,34 @@ public class ModeloPelicula {
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
+
+	public int getCalificacion() {
+		return calificacion;
+	}
+
+	public void setCalificacion(int calificacion) {
+		this.calificacion = calificacion;
+	}
+
+	public List<ModeloPersonaje> getPersonajes() {
+		return personajes;
+	}
+
+	public void setPersonajes(List<ModeloPersonaje> personajes) {
+		this.personajes = personajes;
+	}
+
+	public ModeloGenero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(ModeloGenero genero) {
+		this.genero = genero;
+	}
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+	
+	
 }

@@ -58,13 +58,13 @@ public class ControladorPelicula {
 		return servPelicula.eliminarPelicula(idPelicula);
 	}
 	
-	@GetMapping(value= "/movies", params="name")
-	public ResponseEntity<List<Pelicula>> buscarPorNombre(@RequestParam("name") String nombre) {
-		return servPelicula.buscarPorNombre(nombre);	
+	@GetMapping(value= "/movies", params="titulo")
+	public ResponseEntity<List<Pelicula>> buscarPorNombre(@RequestParam("titulo") String nombre) {
+		return servPelicula.buscarPorTitulo(nombre);	
 	}
 	
 	@GetMapping(value= "/movies", params="genre")
-	public ResponseEntity<List<Pelicula>> buscarPorGenero(@RequestParam("genre") int idGenero) {
+	public ResponseEntity<List<Pelicula>> buscarPorGenero2(@RequestParam("genre") int idGenero) {
 		return servPelicula.buscarPorGenero(idGenero);	
 	}
 	
@@ -73,5 +73,8 @@ public class ControladorPelicula {
 		return servPelicula.buscarPorOrden(order);	
 	}
 	
-
+	@GetMapping("/movies/{id}")
+	public ResponseEntity<List<Pelicula>> buscarPorGenero (int idGenero) {
+		return servPelicula.buscarPorGenero(idGenero);	
+	}
 }
