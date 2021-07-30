@@ -120,7 +120,7 @@ public class ServicioPelicula {
 		}
 	}
 
-	public Pelicula obtnerDetallePelicula(long idPelicula) {
+	public Pelicula obtenerDetallePelicula(long idPelicula) {
 		Pelicula pelicula = repoPelicula.findById(idPelicula).get();
 
 		Pelicula peli = new Pelicula();
@@ -170,17 +170,24 @@ public class ServicioPelicula {
 	public ResponseEntity<List<Pelicula>> buscarPorTitulo(String nombre) {
 		try {
 			List<Pelicula> peliculas = new ArrayList<Pelicula>();
-
+			List<Pelicula> resultPeliculas = new ArrayList<Pelicula>();
 			if (nombre == null)
 				repoPelicula.findAll().forEach(peliculas::add);
 			else
-				repoPelicula.findByTitulo(nombre).forEach(peliculas::add);
+				//repoPelicula.findByTitulo(nombre).forEach(peliculas::add);
+			peliculas = repoPelicula.findByTitulo(nombre);
+			for (Pelicula pelicula : peliculas) {
+				resultPeliculas.add(obtenerDetallePelicula(pelicula.getIdPelicula()));
+				
+			}
+			
+			
 
 			if (peliculas.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(peliculas, HttpStatus.OK);
+			return new ResponseEntity<>(resultPeliculas, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

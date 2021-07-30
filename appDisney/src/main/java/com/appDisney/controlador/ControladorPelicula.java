@@ -41,7 +41,7 @@ public class ControladorPelicula {
 	
 	@GetMapping("/movies/detail/{id}")
 	public Pelicula obtenerDetallePelicula(@PathVariable("id") long idPelicula) {
-		return servPelicula.obtnerDetallePelicula(idPelicula);
+		return servPelicula.obtenerDetallePelicula(idPelicula);
 	}
 	
 	
