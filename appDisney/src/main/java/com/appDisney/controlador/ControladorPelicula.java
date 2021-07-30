@@ -2,6 +2,7 @@ package com.appDisney.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -31,7 +32,7 @@ public class ControladorPelicula {
 	}
 	//SE OBTIENEN TODOS LOS PERSONAJES
 	@GetMapping("/movies")
-	public List<Pelicula> obtenerPeliculas() {
+	public List<Map<String, Object>> obtenerPeliculas(){
 		return servPelicula.obtenerPeliculas();
 	}
 	

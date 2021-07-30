@@ -1,7 +1,9 @@
 package com.appDisney.servicio;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -51,9 +53,9 @@ public class ServicioPelicula {
 			return ResponseEntity.unprocessableEntity().body("Error al crear la pelicula");
 
 	}
+ 
 
-
-	public List<Pelicula> obtenerPeliculas() {
+	/*public List<Pelicula> obtenerPeliculas() {
         List<Pelicula> peliculaList = repoPelicula.findAll();
         if(peliculaList.size()>0) {
             List<Pelicula> peliculas = new ArrayList<>();
@@ -70,7 +72,24 @@ public class ServicioPelicula {
             }
             return peliculas;
         } else return new ArrayList<Pelicula>();
-    }
+    }*/
+	
+public List<Map<String, Object>> obtenerPeliculas(){
+		
+		List<Pelicula> peliculas = repoPelicula.findAll();
+		
+		List<Map<String, Object>> resultado = new ArrayList<Map<String, Object>>();
+		for (Pelicula pelicula : peliculas) {
+			Map<String, Object> mapPeliculas = new HashMap<String, Object>();
+			mapPeliculas.put("Imagen", pelicula.getImagen());
+			mapPeliculas.put("Titulo", pelicula.getTitulo());
+			mapPeliculas.put("Fecha de Creacion", pelicula.getFechaCreacion());
+			
+			resultado.add(mapPeliculas);
+		}
+		return resultado;
+		
+	}
     public List<Personaje> getPersonajeList(Pelicula peli){
         List<Personaje> personajeList = new ArrayList<>();
         

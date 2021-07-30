@@ -204,7 +204,7 @@ public class ServicioPersonaje {
             }*/
             return per;
         
-    }
+    } 
 	
     public List<Pelicula> getPeliculaList(Personaje personaje){
         List<Pelicula> peliculaList = new ArrayList<>();

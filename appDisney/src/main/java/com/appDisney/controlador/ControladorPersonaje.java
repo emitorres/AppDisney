@@ -36,7 +36,7 @@ public class ControladorPersonaje {
 		return servPersonaje.obtenerDetallePersonaje(idPersonaje);
 	}
 	
-	
+	 
 
 	
 	//SE CREA UN PERSONAJE
