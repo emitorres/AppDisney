@@ -20,7 +20,6 @@ import com.appDisney.repositorio.RepositorioGenero;
 import com.appDisney.repositorio.RepositorioPelicula;
 import com.appDisney.repositorio.RepositorioPersonaje;
 
-
 @Service
 public class ServicioPelicula {
 
@@ -53,60 +52,56 @@ public class ServicioPelicula {
 			return ResponseEntity.unprocessableEntity().body("Error al crear la pelicula");
 
 	}
- 
 
-	/*public List<Pelicula> obtenerPeliculas() {
-        List<Pelicula> peliculaList = repoPelicula.findAll();
-        if(peliculaList.size()>0) {
-            List<Pelicula> peliculas = new ArrayList<>();
-            for (Pelicula peli : peliculaList) {
-                Pelicula model = new Pelicula();
-                model.setTitulo(peli.getTitulo());
-                model.setCalificacion(peli.getCalificacion());
-                model.setIdPelicula(peli.getIdPelicula());
-                model.setFechaCreacion(peli.getFechaCreacion());
-                model.setPersonajes(getPersonajeList(peli));
-                
-               
-                peliculas.add(model);
-            }
-            return peliculas;
-        } else return new ArrayList<Pelicula>();
-    }*/
-	
-public List<Map<String, Object>> obtenerPeliculas(){
-		
+	/*
+	 * public List<Pelicula> obtenerPeliculas() { List<Pelicula> peliculaList =
+	 * repoPelicula.findAll(); if(peliculaList.size()>0) { List<Pelicula> peliculas
+	 * = new ArrayList<>(); for (Pelicula peli : peliculaList) { Pelicula model =
+	 * new Pelicula(); model.setTitulo(peli.getTitulo());
+	 * model.setCalificacion(peli.getCalificacion());
+	 * model.setIdPelicula(peli.getIdPelicula());
+	 * model.setFechaCreacion(peli.getFechaCreacion());
+	 * model.setPersonajes(getPersonajeList(peli));
+	 * 
+	 * 
+	 * peliculas.add(model); } return peliculas; } else return new
+	 * ArrayList<Pelicula>(); }
+	 */
+
+	public List<Map<String, Object>> obtenerPeliculas() {
+
 		List<Pelicula> peliculas = repoPelicula.findAll();
-		
+
 		List<Map<String, Object>> resultado = new ArrayList<Map<String, Object>>();
 		for (Pelicula pelicula : peliculas) {
 			Map<String, Object> mapPeliculas = new HashMap<String, Object>();
 			mapPeliculas.put("Imagen", pelicula.getImagen());
 			mapPeliculas.put("Titulo", pelicula.getTitulo());
 			mapPeliculas.put("Fecha de Creacion", pelicula.getFechaCreacion());
-			
+
 			resultado.add(mapPeliculas);
 		}
 		return resultado;
-		
+
 	}
-    public List<Personaje> getPersonajeList(Pelicula peli){
-        List<Personaje> personajeList = new ArrayList<>();
-        
-        for(int i=0; i< peli.getPersonajes().size(); i++) {
-            Personaje personajeModel = new Personaje();
-            personajeModel.setNombre(peli.getPersonajes().get(i).getNombre());
-            personajeModel.setEdad(peli.getPersonajes().get(i).getEdad());
-            personajeModel.setHistoria(peli.getPersonajes().get(i).getHistoria());
-            personajeModel.setImagen(peli.getPersonajes().get(i).getImagen());
-            personajeModel.setPeso(peli.getPersonajes().get(i).getPeso());
-            personajeModel.setIdPersonaje(peli.getPersonajes().get(i).getIdPersonaje());
-            personajeList.add(personajeModel);
-        }
-        return personajeList;
-    }
-	
-	
+
+
+	public List<Personaje> getPersonajeList(Pelicula peli) {
+		List<Personaje> personajeList = new ArrayList<>();
+
+		for (int i = 0; i < peli.getPersonajes().size(); i++) {
+			Personaje personajeModel = new Personaje();
+			personajeModel.setNombre(peli.getPersonajes().get(i).getNombre());
+			personajeModel.setEdad(peli.getPersonajes().get(i).getEdad());
+			personajeModel.setHistoria(peli.getPersonajes().get(i).getHistoria());
+			personajeModel.setImagen(peli.getPersonajes().get(i).getImagen());
+			personajeModel.setPeso(peli.getPersonajes().get(i).getPeso());
+			personajeModel.setIdPersonaje(peli.getPersonajes().get(i).getIdPersonaje());
+			personajeList.add(personajeModel);
+		}
+		return personajeList;
+	}
+
 	public ResponseEntity<Pelicula> obtenerPelicula(long idPelicula) {
 
 		if (repoPelicula.findById(idPelicula).isPresent()) {
@@ -124,23 +119,22 @@ public List<Map<String, Object>> obtenerPeliculas(){
 		}
 	}
 
-	public Pelicula getUsers(long idPelicula) {
-       Pelicula pelicula = repoPelicula.findById(idPelicula).get();
-        
-                Pelicula model = new Pelicula();
-                
-                model.setTitulo(pelicula.getTitulo());
-                model.setImagen(pelicula.getImagen());
-                model.setCalificacion(pelicula.getCalificacion());
-                model.setFechaCreacion(pelicula.getFechaCreacion());
-                model.setIdPelicula(pelicula.getIdPelicula());
-                //model.setGenero(pelicula.getGenero());
-               model.setPersonajes(pelicula.getPersonajes());
-               
-                return model; 
-             }
-	
-	
+	public Pelicula obtnerDetallePelicula(long idPelicula) {
+		Pelicula pelicula = repoPelicula.findById(idPelicula).get();
+
+		Pelicula peli = new Pelicula();
+
+		peli.setTitulo(pelicula.getTitulo());
+		peli.setImagen(pelicula.getImagen());
+		peli.setCalificacion(pelicula.getCalificacion());
+		peli.setFechaCreacion(pelicula.getFechaCreacion());
+		peli.setIdPelicula(pelicula.getIdPelicula());
+		// model.setGenero(pelicula.getGenero());
+		peli.setPersonajes(getPersonajeList(pelicula));
+
+		return peli;
+	}
+
 	@Transactional
 	public ResponseEntity<Object> actualizarPelicula(Pelicula pelicula, Long idPelicula) {
 		if (repoPelicula.findById(idPelicula).isPresent()) {
@@ -191,32 +185,27 @@ public List<Map<String, Object>> obtenerPeliculas(){
 		}
 	}
 
-	/*public ResponseEntity<List<Pelicula>> buscarPorGenero(long idGenero) {
-		try {
-			List<Pelicula> peliculas = new ArrayList<Pelicula>();
+	/*
+	 * public ResponseEntity<List<Pelicula>> buscarPorGenero(long idGenero) { try {
+	 * List<Pelicula> peliculas = new ArrayList<Pelicula>();
+	 * 
+	 * if (idGenero == 0) repoPelicula.findAll().forEach(peliculas::add); else
+	 * //repoPelicula.findBy(idGenero).forEach(peliculas::add);
+	 * 
+	 * if (peliculas.isEmpty()) { return new
+	 * ResponseEntity<>(HttpStatus.NO_CONTENT); }
+	 * 
+	 * return new ResponseEntity<>(peliculas, HttpStatus.OK); } catch (Exception e)
+	 * { return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); } }
+	 */
 
-			if (idGenero == 0)
-				repoPelicula.findAll().forEach(peliculas::add);
-			else
-		//repoPelicula.findBy(idGenero).forEach(peliculas::add);
-
-			if (peliculas.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(peliculas, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}*/
-	
 	public ResponseEntity<List<Pelicula>> buscarPorGenero(long idGenero) {
 		try {
 			List<Pelicula> peliculas = new ArrayList<Pelicula>();
 
 			Optional<Genero> genero = repoGenero.findById(idGenero);
 
-			for (Pelicula peli :genero.get().getPeliculas()) {
+			for (Pelicula peli : genero.get().getPeliculas()) {
 				peliculas.add(peli);
 			}
 

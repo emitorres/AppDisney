@@ -36,9 +36,11 @@ public class ControladorPelicula {
 		return servPelicula.obtenerPeliculas();
 	}
 	
+	
+	
 	@GetMapping("/movies/detail/{id}")
 	public Pelicula obtenerDetallePelicula(@PathVariable("id") long idPelicula) {
-		return servPelicula.getUsers(idPelicula);
+		return servPelicula.obtnerDetallePelicula(idPelicula);
 	}
 	
 	
