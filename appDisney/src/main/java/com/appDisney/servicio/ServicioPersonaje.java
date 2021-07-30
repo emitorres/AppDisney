@@ -71,6 +71,7 @@ public class ServicioPersonaje {
 		
 	}
 	
+	
 	public List<Personaje> obtenerDetallePersonajes() {
 		List<Personaje> personajes = repoPersonaje.findAll();
 

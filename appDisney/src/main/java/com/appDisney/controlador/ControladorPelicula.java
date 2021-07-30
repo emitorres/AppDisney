@@ -38,6 +38,7 @@ public class ControladorPelicula {
 	
 	
 	
+	
 	@GetMapping("/movies/detail/{id}")
 	public Pelicula obtenerDetallePelicula(@PathVariable("id") long idPelicula) {
 		return servPelicula.obtnerDetallePelicula(idPelicula);
@@ -68,8 +69,8 @@ public class ControladorPelicula {
 		return servPelicula.eliminarPelicula(idPelicula);
 	}
 	
-	@GetMapping(value= "/movies", params="titulo")
-	public ResponseEntity<List<Pelicula>> buscarPorNombre(@RequestParam("titulo") String nombre) {
+	@GetMapping(value= "/movies", params="name")
+	public ResponseEntity<List<Pelicula>> buscarPorNombre(@RequestParam("name") String nombre) {
 		return servPelicula.buscarPorTitulo(nombre);	
 	}
 	

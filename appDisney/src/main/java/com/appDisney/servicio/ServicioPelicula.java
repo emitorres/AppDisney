@@ -86,6 +86,7 @@ public class ServicioPelicula {
 	}
 
 
+	
 	public List<Personaje> getPersonajeList(Pelicula peli) {
 		List<Personaje> personajeList = new ArrayList<>();
 
