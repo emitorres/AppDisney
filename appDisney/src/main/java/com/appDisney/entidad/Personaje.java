@@ -40,7 +40,7 @@ public class Personaje {
 	@ManyToMany(targetEntity = Pelicula.class, cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH })
 	
 	
-	@JsonBackReference
+	//@JsonBackReference
 	private List<Pelicula> peliculas;
 
 	

@@ -28,7 +28,7 @@ public class Genero {
 	@OneToMany(targetEntity = Pelicula.class, mappedBy = "genero", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	
 	
-	@JsonBackReference
+	//@JsonBackReference
 	// @JsonIgnore
 	private List<Pelicula> peliculas;
 

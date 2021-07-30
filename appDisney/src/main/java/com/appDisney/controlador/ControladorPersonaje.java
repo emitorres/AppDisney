@@ -31,9 +31,9 @@ public class ControladorPersonaje {
 		this.servPersonaje = servPersonaje;
 	}
 	//SE OBTIENEN TODOS LOS PERSONAJES
-	@GetMapping("/characters/detail")
-	public List<Personaje> obtenerDetallePersonajes() {
-		return servPersonaje.obtenerDetallePersonajes();
+	@GetMapping("/characters/detail/{id}")
+	public Personaje obtenerDetallePersonaje(@PathVariable("id") long idPersonaje) {
+		return servPersonaje.obtenerDetallePersonaje(idPersonaje);
 	}
 	
 	

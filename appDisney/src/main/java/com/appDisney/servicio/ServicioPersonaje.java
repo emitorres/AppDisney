@@ -176,7 +176,52 @@ public class ServicioPersonaje {
 	}
 
 	
+	public Personaje obtenerDetallePersonaje(long idPersonaje) {
+        List<Pelicula> peliculaList = repoPelicula.findAll();
+		
+		Personaje personaje = repoPersonaje.findById(idPersonaje).get();
+		Personaje per = new Personaje();
+		per.setIdPersonaje(personaje.getIdPersonaje());
+		per.setEdad(personaje.getEdad());
+		per.setHistoria(personaje.getHistoria());
+		per.setImagen(personaje.getImagen());
+		per.setNombre(personaje.getNombre());
+		per.setPeso(personaje.getPeso());
+		per.setPeliculas(getPeliculaList(personaje));
+		
+        /*if(peliculaList.size()>0) {
+            List<Pelicula> peliculas = new ArrayList<>();
+            for (Pelicula peli : peliculaList) {
+                Pelicula model = new Pelicula();
+                model.setTitulo(peli.getTitulo());
+                model.setCalificacion(peli.getCalificacion());
+                model.setIdPelicula(peli.getIdPelicula());
+                model.setFechaCreacion(peli.getFechaCreacion());
+                model.setPersonajes(getPersonajeList(peli));
+                
+               
+                peliculas.add(model);
+            }*/
+            return per;
+        
+    }
 	
+    public List<Pelicula> getPeliculaList(Personaje personaje){
+        List<Pelicula> peliculaList = new ArrayList<>();
+        
+        for(int i=0; i< personaje.getPeliculas().size(); i++) {
+        	
+            Pelicula peli = new Pelicula();
+            peli.setIdPelicula(personaje.getPeliculas().get(i).getIdPelicula());
+            peli.setCalificacion(personaje.getPeliculas().get(i).getCalificacion());
+            peli.setFechaCreacion(personaje.getPeliculas().get(i).getFechaCreacion());
+            //peli.setGenero(personaje.getPeliculas().get(i).getGenero());
+            peli.setImagen(personaje.getPeliculas().get(i).getImagen());
+            peli.setTitulo(personaje.getPeliculas().get(i).getTitulo());
+            peliculaList.add(peli);
+        }
+        return peliculaList;
+    }
 	
 	
 	
