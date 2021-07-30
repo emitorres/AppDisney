@@ -162,7 +162,7 @@ public class ServicioPelicula {
 			if (repoPelicula.findById(idPelicula).isPresent())
 				return ResponseEntity.unprocessableEntity().body("Error al eliminar la pelicula");
 			else
-				return ResponseEntity.ok().body("PElicula eliminada");
+				return ResponseEntity.ok().body("Pelicula eliminada");
 		} else
 			return ResponseEntity.badRequest().body("No se encuentra la pelicula");
 	}
