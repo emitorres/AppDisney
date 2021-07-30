@@ -55,10 +55,20 @@ public class ServicioPersonaje {
 
 	}
 
-	public List<Personaje> obtenerPersonajes() {
+	public List<Map<String, Object>> obtenerPersonajes(){
+		
 		List<Personaje> personajes = repoPersonaje.findAll();
-
-		return personajes;
+		
+		List<Map<String, Object>> resultado = new ArrayList<Map<String, Object>>();
+		for (Personaje personaje : personajes) {
+			Map<String, Object> mapPersonajes = new HashMap<String, Object>();
+			mapPersonajes.put("Imagen", personaje.getImagen());
+			mapPersonajes.put("Nombre", personaje.getNombre());
+			
+			resultado.add(mapPersonajes);
+		}
+		return resultado;
+		
 	}
 	
 	public List<Personaje> obtenerDetallePersonajes() {

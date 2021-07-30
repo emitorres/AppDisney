@@ -78,8 +78,9 @@ public class ControladorPersonaje {
 		return servPersonaje.buscarPorPelicula(idPelicula);	
 	}
 	
+	
 	@GetMapping(value= "/characters")
-	public List<Personaje> obtenerPersonajes() {
+	public List<Map<String, Object>> obtenerPersonajes(){
 		return servPersonaje.obtenerPersonajes();	
 	}
 }
