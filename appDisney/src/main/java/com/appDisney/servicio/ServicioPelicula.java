@@ -214,7 +214,9 @@ public class ServicioPelicula {
 			Optional<Genero> genero = repoGenero.findById(idGenero);
 
 			for (Pelicula peli : genero.get().getPeliculas()) {
-				peliculas.add(peli);
+				
+				
+				peliculas.add(obtenerDetallePelicula(peli.getIdPelicula()));
 			}
 
 			if (peliculas.isEmpty()) {
